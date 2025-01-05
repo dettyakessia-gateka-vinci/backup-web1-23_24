@@ -120,6 +120,11 @@ router.post('/update', function (req, res, next) {
 
 module.exports = router;
 function manageFilter(filter, exoplanetsTableFilter, req) {
+    exoplanetsTableFilter = newFunction(filter, exoplanetsTableFilter, req);
+    return exoplanetsTableFilter;
+}
+
+function newFunction(filter, exoplanetsTableFilter, req) {
     if (filter === "Filtrer par hclass") {
         console.log("GET FILTER EXOPLANET HCLASS");
         exoplanetsTableFilter = Exoplanet.searchByHclass(req.query.hClassExoplanet);
