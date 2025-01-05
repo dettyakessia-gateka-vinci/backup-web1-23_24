@@ -87,15 +87,7 @@ router.get('/details', function (req, res, next) {
 router.get('/filter', function (req, res, next) {
     const filter = req.query.filter;
     let exoplanetsTableFilter = [];
-    if (filter === "Filtrer par hclass") {
-        console.log("GET FILTER EXOPLANET HCLASS");
-        exoplanetsTableFilter = Exoplanet.searchByHclass(req.query.hClassExoplanet);
-    }
-    if (filter === "Filtrer par année") {
-        console.log("GET FILTER EXOPLANET ANNEE");
-        const discoveryYearParam = parseInt(req.query.discoveryYearExoplanet);
-        exoplanetsTableFilter = Exoplanet.searchByYear(discoveryYearParam);
-    }
+    exoplanetsTableFilter = manageFilter(filter, exoplanetsTableFilter, req);
     // param exoplanetsTable must be the same but with a different value (table filtering)
     res.render('exoplanets/index.hbs', { exoplanetsTable: exoplanetsTableFilter });
 });
@@ -127,3 +119,16 @@ router.post('/update', function (req, res, next) {
 
 
 module.exports = router;
+function manageFilter(filter, exoplanetsTableFilter, req) {
+    if (filter === "Filtrer par hclass") {
+        console.log("GET FILTER EXOPLANET HCLASS");
+        exoplanetsTableFilter = Exoplanet.searchByHclass(req.query.hClassExoplanet);
+    }
+    if (filter === "Filtrer par année") {
+        console.log("GET FILTER EXOPLANET ANNEE");
+        const discoveryYearParam = parseInt(req.query.discoveryYearExoplanet);
+        exoplanetsTableFilter = Exoplanet.searchByYear(discoveryYearParam);
+    }
+    return exoplanetsTableFilter;
+}
+
