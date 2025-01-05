@@ -71,18 +71,22 @@ module.exports = router;
 
 function manageNewUserWithoutErros(errors, req, res) {
     if (errors.length == 0) {
-        User.save({
-            name: req.body.userName,
-            firstname: req.body.userFirstname,
-            email: req.body.userEmail,
-            password: bcrypt.hashSync(req.body.userPassword, saltRounds)
-        });
-        res.redirect('/users');
+        saveUser(req, res);
     }
     else {
         req.session.errors = errors;
         res.redirect('/users/register');
     }
+}
+
+function saveUser(req, res) {
+    User.save({
+        name: req.body.userName,
+        firstname: req.body.userFirstname,
+        email: req.body.userEmail,
+        password: bcrypt.hashSync(req.body.userPassword, saltRounds)
+    });
+    res.redirect('/users');
 }
 
 function manageUserActive(req, userFound, res) {
