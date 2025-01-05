@@ -7,8 +7,7 @@ router.get('/', (req, res, next) => {
     console.log("MEMBER INDEX");
     console.log("session variable : " + JSON.stringify(req.session));
     if (req.session.login) {
-        const user = User.find(req.session.login);
-        res.render('members/index', { user });
+        manageSessionTrue(req, res);
     }
     else {
         res.redirect('/users');
@@ -16,3 +15,8 @@ router.get('/', (req, res, next) => {
 });
 
 module.exports = router;
+
+function manageSessionTrue(req, res) {
+    const user = User.find(req.session.login);
+    res.render('members/index', { user });
+}
