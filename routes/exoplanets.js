@@ -114,6 +114,11 @@ router.post('/update', function (req, res, next) {
         pClass: req.body.pClassExoplanet
     });
 
+
+
+
+    
+
     res.redirect('/exoplanets');
 });
 
