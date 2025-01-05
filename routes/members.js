@@ -13,8 +13,7 @@ module.exports = router;
 
 function manageSession(req, res) {
     if (req.session.login) {
-        const user = User.find(req.session.login);
-        res.render('members/index', { user });
+        manageSessionTrue(req, res);
     }
     else {
         res.redirect('/users');
