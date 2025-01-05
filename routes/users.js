@@ -64,6 +64,12 @@ router.post('/add', (req, res, next) => {
     if (!validator.isStrongPassword(req.body.userPassword, { minLength: 2, minLowercase: 0, minUppercase: 0, minNumbers: 0, minSymbols: 0, returnScore: false })) errors.push("Le mot de passe n'et pas assez fort : 2 caractères minimum, ... !");
     if (req.body.userPassword != req.body.userPasswordConfirmation) errors.push("Les mot de passes ne correspondent pas");
     if (User.find(req.body.userEmail)) errors.push("Email/Utilisateur déjà présent en DB");
+    manageNewUserWithoutErros(errors, req, res);
+});
+
+module.exports = router;
+
+function manageNewUserWithoutErros(errors, req, res) {
     if (errors.length == 0) {
         User.save({
             name: req.body.userName,
@@ -77,9 +83,7 @@ router.post('/add', (req, res, next) => {
         req.session.errors = errors;
         res.redirect('/users/register');
     }
-});
-
-module.exports = router;
+}
 
 function manageUserActive(req, userFound, res) {
     if (bcrypt.compareSync(req.body.userPassword, userFound.password)) {
